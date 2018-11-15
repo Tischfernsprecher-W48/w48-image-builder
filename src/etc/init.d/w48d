@@ -1,0 +1,62 @@
+#! /bin/sh -e
+### BEGIN INIT INFO
+# Provides:          w48d
+# Required-Start:    $time $local_fs $remote_fs
+# Required-Stop:     $time $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: w48 daemon
+# Description:       Init script for the w48 daemon
+### END INIT INFO
+#
+# Author:	"Sven Moennich" <lan4lano@gmail.com>
+#
+set -e
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+DAEMON=/usr/sbin/w48d
+UUIDD_USER=dialerd
+UUIDD_GROUP=dialerd
+UUIDD_DIR=/run/w48d
+PIDFILE=$UUIDD_DIR/w48d.pid
+
+test -x $DAEMON || exit 0
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+	log_daemon_msg "Starting w48d" "w48d"
+	if ! test -d $UUIDD_DIR; then
+		mkdir -p $UUIDD_DIR
+		chown -R $UUIDD_USER:$UUIDD_GROUP $UUIDD_DIR
+	fi
+	start_daemon -p $PIDFILE $DAEMON
+	log_end_msg $?
+    ;;
+  stop)
+	log_daemon_msg "Stopping w48d" "w48d"
+	killproc -p $PIDFILE $DAEMON
+	log_end_msg $?
+    ;;
+  status)
+	if pidofproc -p $PIDFILE $DAEMON >/dev/null 2>&1; then
+	    echo "$DAEMON is running";
+	    exit 0;
+	else
+	    echo "$DAEMON is NOT running";
+	    if test -f $PIDFILE; then exit 2; fi
+	    exit 3;
+	fi
+    ;;
+  force-reload|restart)
+    $0 stop
+    $0 start
+    ;;
+  *)
+    echo "Usage: /etc/init.d/w48d {start|stop|restart|force-reload}"
+    exit 1
+    ;;
+esac
+
+exit 0

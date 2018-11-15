@@ -1,0 +1,26 @@
+auto lo
+iface lo inet loopback
+
+auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
+iface eth0 inet6 auto
+
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet static
+address 192.168.179.1
+netmask 255.255.255.0
+broadcast 192.168.179.255
+iface wlan00 inet6 auto
+
+
+auto wlan1
+allow-hotplug wlan1
+iface wlan1 inet dhcp
+iface wlan0 inet6 auto
+wpa-ap-scan 1
+wpa-scan-ssid 1
+wpa-ssid ""
+wpa-psk ""
+

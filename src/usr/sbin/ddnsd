@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+while true; do
+do
+curl --connect-timeout 10 \
+    --max-time 10 \
+    --retry 30 \
+    --retry-delay 0 \
+    --retry-max-time 300 \
+    -u user:passwd \
+ http://dyndns.ows-sz.de/update.php?hostname=48.dyndns.ows-sz.de
+sleep 300
+done
