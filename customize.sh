@@ -15,30 +15,30 @@ cat $SOURCEDIR/raspbian.org.gpg | chroot $ROOTDIR apt-key add -
 mkdir -p $ROOTDIR/etc/apt/sources.list.d/
 mkdir -p $ROOTDIR/etc/apt/apt.conf.d/
 echo "Acquire::http { Proxy \"http://localhost:3142\"; };" > $ROOTDIR/etc/apt/apt.conf.d/50apt-cacher-ng
-cp $SOURCEDIR/etc/apt/sources.list $ROOTDIR/etc/apt/sources.list
-cp $SOURCEDIR/etc/apt/apt.conf.d/50raspi $ROOTDIR/etc/apt/apt.conf.d/50raspi
+cp -vf $SOURCEDIR/etc/apt/sources.list $ROOTDIR/etc/apt/sources.list
+cp -vf $SOURCEDIR/etc/apt/apt.conf.d/50raspi $ROOTDIR/etc/apt/apt.conf.d/50raspi
 chroot $ROOTDIR apt-get update
 
 # Regenerate SSH host keys on first boot.
 chroot $ROOTDIR apt-get install -y openssh-server rng-tools
 rm -f $ROOTDIR/etc/ssh/ssh_host_*
 mkdir -p $ROOTDIR/etc/systemd/system
-cp $SOURCEDIR/etc/systemd/system/regen-ssh-keys.service $ROOTDIR/etc/systemd/system/regen-ssh-keys.service
+cp -vf $SOURCEDIR/etc/systemd/system/regen-ssh-keys.service $ROOTDIR/etc/systemd/system/regen-ssh-keys.service
 chroot $ROOTDIR systemctl enable regen-ssh-keys
 
 # Configure.
-cp $SOURCEDIR/boot/cmdline.txt $ROOTDIR/boot/cmdline.txt
-cp $SOURCEDIR/boot/config.txt $ROOTDIR/boot/config.txt
-cp -r $SOURCEDIR/etc/default $ROOTDIR/etc/default
-cp $SOURCEDIR/etc/fstab $ROOTDIR/etc/fstab
-cp $SOURCEDIR/etc/modules $ROOTDIR/etc/modules
-cp $SOURCEDIR/etc/network/interfaces $ROOTDIR/etc/network/interfaces
+cp -vf  $SOURCEDIR/boot/cmdline.txt $ROOTDIR/boot/cmdline.txt
+cp -vf $SOURCEDIR/boot/config.txt $ROOTDIR/boot/config.txt
+cp -vr $SOURCEDIR/etc/default $ROOTDIR/etc/default
+cp -vf $SOURCEDIR/etc/fstab $ROOTDIR/etc/fstab
+cp -vf $SOURCEDIR/etc/modules $ROOTDIR/etc/modules
+cp -vf $SOURCEDIR/etc/network/interfaces $ROOTDIR/etc/network/interfaces
 
 FILE="$SOURCEDIR/config/authorized_keys"
 if [ -f $FILE ]; then
     echo "Adding authorized_keys."
     mkdir -p $ROOTDIR/root/.ssh/
-    cp $FILE $ROOTDIR/root/.ssh/
+    cp -vf $FILE $ROOTDIR/root/.ssh/
 else
     echo "No authorized_keys, allowing root login with password on SSH."
     sed -i "s/.*PermitRootLogin.*/PermitRootLogin yes/" $ROOTDIR/etc/ssh/sshd_config
@@ -74,24 +74,34 @@ chroot $ROOTDIR apt-get install -fy
 
 
 # Konfiguration kopieren
-cp -r $SOURCEDIR/etc/* $ROOTDIR/etc/
-cp -r $SOURCEDIR/lib/* $ROOTDIR/lib/
-cp -r $SOURCEDIR/usr/* $ROOTDIR/usr/
-cp -r $SOURCEDIR/var/* $ROOTDIR/var/
+cp -vr $SOURCEDIR/etc/* $ROOTDIR/etc/
+cp -vr $SOURCEDIR/lib/* $ROOTDIR/lib/
+cp -vr $SOURCEDIR/usr/* $ROOTDIR/usr/
+cp -vr $SOURCEDIR/var/* $ROOTDIR/var/
 
-# Libs kopieren
+
+# ToDo
+
+# Make chroot for croos build
+
+./make-chroot.sh
+
+# Libs kopieren ToDo
 cp -r /opt/cross-pi-libs/* $ROOTDIR/
 
-cp -rf  $SOURCEDIR/../../w48-WebGUI/*.deb     $ROOTDIR/usr/src/
-cp -rf $SOURCEDIR/../../w48conf/*.deb         $ROOTDIR/usr/src/
-cp -rf $SOURCEDIR/../../w48d/*.deb            $ROOTDIR/usr/src/
-cp -rf $SOURCEDIR/../../w48play/*.deb         $ROOTDIR/usr/src/
-cp -rf $SOURCEDIR/../../w48upnpd/*.deb        $ROOTDIR/usr/src/
-cp -rf $SOURCEDIR/../../w48phpcmd/*.deb       $ROOTDIR/usr/src/
-cp -rf $SOURCEDIR/../../w48rebootd/*.deb      $ROOTDIR/usr/src/
 
-cp -f  $SOURCEDIR/../../changemac/changemac   $ROOTDIR/usr/sbin/
-cp -f  $SOURCEDIR/../../w48phpcmd/w48phpcmd   $ROOTDIR/usr/sbin/
+# Pakete installieren ToDo
+cp -rvf  $SOURCEDIR/../../w48-WebGUI/*.deb     $ROOTDIR/usr/src/
+cp -rvf $SOURCEDIR/../../w48conf/*.deb         $ROOTDIR/usr/src/
+cp -rvf $SOURCEDIR/../../w48d/*.deb            $ROOTDIR/usr/src/
+cp -rvf $SOURCEDIR/../../w48play/*.deb         $ROOTDIR/usr/src/
+cp -rvf $SOURCEDIR/../../w48upnpd/*.deb        $ROOTDIR/usr/src/
+cp -rvf $SOURCEDIR/../../w48phpcmd/*.deb       $ROOTDIR/usr/src/
+cp -rvf $SOURCEDIR/../../w48rebootd/*.deb      $ROOTDIR/usr/src/
+
+cp -vf  $SOURCEDIR/../../changemac/changemac   $ROOTDIR/usr/sbin/
+cp -vf  $SOURCEDIR/../../w48phpcmd/w48phpcmd   $ROOTDIR/usr/sbin/
+
 
 
 # Pakete installieren
