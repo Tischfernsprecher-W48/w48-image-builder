@@ -3,6 +3,7 @@
 SOURCEDIR=$(dirname $0)
 
 vmdebootstrap \
+    --verbose \
     --arch armhf \
     --distribution stretch \
     --mirror http://localhost:3142/archive.raspbian.org/raspbian \
