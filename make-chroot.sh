@@ -4,8 +4,7 @@
 
 function start_init {
 # run unmount on exit
-trap unmount_chroot SIGHUP SIGINT SIGTERM
-
+#trap unmount_chroot SIGHUP SIGINT SIGTERM
 CUR_DIR=$( pwd )
 export MY_CHROOT=$CUR_DIR/chroot
 mkdir -p $MY_CHROOT
@@ -57,7 +56,7 @@ tput setaf 7
 chroot $MY_CHROOT /bin/bash /usr/src/make-cross.sh
 chroot $MY_CHROOT /bin/bash /usr/src/build-rpi-packages.sh
 
-chroot $MY_CHROOT /bin/bash
+#chroot $MY_CHROOT /bin/bash
 
 }
 

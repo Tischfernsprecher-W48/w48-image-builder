@@ -1,7 +1,6 @@
 #!/bin/bash
 
-CDIR=/usr/src
-BDIR=$CDIR # build dir
+BDIR=/usr/src # build dir
 
 function install_dependencies {
 ######################################################################################
@@ -28,11 +27,11 @@ echo "Let's download the software that we'll use for building the cross compiler
 echo "Step 2"
 tput setaf 7
 cd $BDIR
-#git clone https://github.com/Sven-Moennich/binutils-2.28.git
-#git clone https://github.com/Sven-Moennich/gcc-6.3.0.git
-#git clone https://github.com/Sven-Moennich/glibc-2.24.git
-#git clone https://github.com/Sven-Moennich/gcc-8.1.0.git
-#git clone --depth=1 https://github.com/Sven-Moennich/linux.git
+git clone https://github.com/Sven-Moennich/binutils-2.28.git
+git clone https://github.com/Sven-Moennich/gcc-6.3.0.git
+git clone https://github.com/Sven-Moennich/glibc-2.24.git
+git clone https://github.com/Sven-Moennich/gcc-8.1.0.git
+git clone --depth=1 https://github.com/Sven-Moennich/linux.git
 }
 
 
