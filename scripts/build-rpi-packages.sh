@@ -51,20 +51,20 @@ function build-all {
 function download-all {
     cd $BDIR
     if [ ! -f "backup_w48" ]; then
-        git clone https://github.com/Sven-Moennich/iperfd.git
-        git clone https://github.com/Sven-Moennich/w48upnpd.git
-        git clone https://github.com/Sven-Moennich/wiringpi.git
-        git clone https://github.com/Sven-Moennich/w48keygen.git
-        git clone https://github.com/Sven-Moennich/changemac.git
-        git clone https://github.com/Sven-Moennich/w48ddnsd.git
-        git clone https://github.com/Sven-Moennich/w48d.git
-        git clone https://github.com/Sven-Moennich/w48play.git
-        git clone https://github.com/Sven-Moennich/w48conf.git
-        git clone https://github.com/Sven-Moennich/lib-alsa.git
-        git clone https://github.com/Sven-Moennich/w48rebootd.git
-        git clone https://github.com/Sven-Moennich/w48phpcmd.git
-        git clone https://github.com/Sven-Moennich/mkpasswd.git
-        git clone https://github.com/Sven-Moennich/libupnp.git
+        git clone https://github.com/Tischfernsprecher-W48/iperfd.git
+        git clone https://github.com/Tischfernsprecher-W48/w48upnpd.git
+        git clone https://github.com/Tischfernsprecher-W48/wiringpi.git
+        git clone https://github.com/Tischfernsprecher-W48/w48keygen.git
+        git clone https://github.com/Tischfernsprecher-W48/changemac.git
+        git clone https://github.com/Tischfernsprecher-W48/w48ddnsd.git
+        git clone https://github.com/Tischfernsprecher-W48/w48d.git
+        git clone https://github.com/Tischfernsprecher-W48/w48play.git
+        git clone https://github.com/Tischfernsprecher-W48/w48conf.git
+        git clone https://github.com/Tischfernsprecher-W48/lib-alsa.git
+        git clone https://github.com/Tischfernsprecher-W48/w48rebootd.git
+        git clone https://github.com/Tischfernsprecher-W48/w48phpcmd.git
+        git clone https://github.com/Tischfernsprecher-W48/mkpasswd.git
+        git clone https://github.com/Tischfernsprecher-W48/libupnp.git
         git clone https://github.com/Sven-Moennich/create_ap.git
         git clone https://github.com/Sven-Moennich/raspi-config.git
     fi

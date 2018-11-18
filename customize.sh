@@ -91,16 +91,16 @@ scripts/./build-chroot.sh
 
 
 # Pakete installieren ToDo
-cp -rvf  $SOURCEDIR/../../w48-WebGUI/*.deb     $ROOTDIR/usr/src/
-cp -rvf $SOURCEDIR/../../w48conf/*.deb         $ROOTDIR/usr/src/
-cp -rvf $SOURCEDIR/../../w48d/*.deb            $ROOTDIR/usr/src/
-cp -rvf $SOURCEDIR/../../w48play/*.deb         $ROOTDIR/usr/src/
-cp -rvf $SOURCEDIR/../../w48upnpd/*.deb        $ROOTDIR/usr/src/
-cp -rvf $SOURCEDIR/../../w48phpcmd/*.deb       $ROOTDIR/usr/src/
-cp -rvf $SOURCEDIR/../../w48rebootd/*.deb      $ROOTDIR/usr/src/
+#cp -rvf  $SOURCEDIR/../../w48-WebGUI/*.deb     $ROOTDIR/usr/src/
+#cp -rvf $SOURCEDIR/../../w48conf/*.deb         $ROOTDIR/usr/src/
+#cp -rvf $SOURCEDIR/../../w48d/*.deb            $ROOTDIR/usr/src/
+#cp -rvf $SOURCEDIR/../../w48play/*.deb         $ROOTDIR/usr/src/
+#cp -rvf $SOURCEDIR/../../w48upnpd/*.deb        $ROOTDIR/usr/src/
+#cp -rvf $SOURCEDIR/../../w48phpcmd/*.deb       $ROOTDIR/usr/src/
+#cp -rvf $SOURCEDIR/../../w48rebootd/*.deb      $ROOTDIR/usr/src/
 
-cp -vf  $SOURCEDIR/../../changemac/changemac   $ROOTDIR/usr/sbin/
-cp -vf  $SOURCEDIR/../../w48phpcmd/w48phpcmd   $ROOTDIR/usr/sbin/
+#cp -vf  $SOURCEDIR/../../changemac/changemac   $ROOTDIR/usr/sbin/
+#cp -vf  $SOURCEDIR/../../w48phpcmd/w48phpcmd   $ROOTDIR/usr/sbin/
 
 
 
