@@ -219,10 +219,10 @@ build_gcc_part2
 build_glibc
 build_gcc_part3
 backup_gcc
-build_gcc8
-build_gcc8_rpi
+#build_gcc8
+#build_gcc8_rpi
 add2path
-backup_gcc8
+#backup_gcc8
 
 
 if [ ! -z "$1" ]; 

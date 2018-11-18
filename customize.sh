@@ -84,10 +84,10 @@ cp -vr $SOURCEDIR/var/* $ROOTDIR/var/
 
 # Make chroot for croos build
 
-./make-chroot.sh
+scripts/./build-chroot.sh
 
 # Libs kopieren ToDo
-cp -r /opt/cross-pi-libs/* $ROOTDIR/
+#cp -r /opt/cross-pi-libs/* $ROOTDIR/
 
 
 # Pakete installieren ToDo

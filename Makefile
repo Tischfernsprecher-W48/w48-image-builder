@@ -8,4 +8,4 @@ build-deb:
 	./mkdeb.sh
 
 clean:
-	rm -f *.deb
+	rm -rf *.deb *.img chroot
