@@ -1,19 +1,16 @@
 w48-image-builder
 ====================
 
-Builds a minimal [Raspbian](http://raspbian.org/) image.
+Builds a minimal [Raspbian](http://raspbian.org/) image for the table telephone W48.
 
-Login: `root`  
-Password: `raspberry`
+Login: `root`
+Password: `w48`
 
 Only a basic Debian with standard networking utilities.
 
 **:exclamation: Careful: As an exception openssh-server is pre-installed and
 will allow root login with the default password.** Host keys are generated on
 first boot.
-
-Downloads
----------
 
 
 Dependencies
@@ -29,7 +26,7 @@ Dependencies
 Usage
 -----
 
-Run `sudo make` (root required for loopback device management)
+Run `sudo make image` (root required for loopback device management)
 to create a fresh raspbian.img in the current directory.
 
 
