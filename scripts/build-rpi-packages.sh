@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 export BDIR=/usr/src
 
 function start_init {
@@ -7,12 +9,16 @@ function start_init {
 BDIR=/usr/src
 export BDIR=/usr/src
 mkdir -p $BDIR/.build
+
+apt-get install -y dh-make autoconf libasound2-dev devscripts
+
 }
 
 
 function print_help {
     echo "Help"
 
+exit 0
 }
 
 function build-all {
@@ -534,6 +540,14 @@ function build_mkpasswd_deb {
 
 
 
+err=0
+report() {
+        err=1
+        echo -n "error at line ${BASH_LINENO[0]}, in call to "
+        sed -n ${BASH_LINENO[0]}p $0
+} >&2
+trap report ERR
+
 
 
 if [ ! -z "$1" ]; 
@@ -548,9 +562,8 @@ else
   cat $0 | grep function | awk -F ' ' '{print $2}' | head -n -2
 fi
 else
-  # Show a helpful error
-  echo "Try:" >&2
-  cat $0 | grep function | awk -F ' ' '{print $2}' | head -n -2
+print_help
   exit 1
 fi
 
+exit $err

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+set -x
 
 function start_init {
 # run unmount on exit
@@ -54,8 +54,8 @@ tput setaf 2
 echo "Zu chroot wechseln"
 tput setaf 7
 #chroot $MY_CHROOT /bin/bash
-chroot $MY_CHROOT /bin/bash /usr/src/build-cross.sh
-chroot $MY_CHROOT /bin/bash /usr/src/build-rpi-packages.sh
+chroot $MY_CHROOT /bin/bash /usr/src/build-cross.sh build-all
+chroot $MY_CHROOT /bin/bash /usr/src/build-rpi-packages.sh build-all
 
 #chroot $MY_CHROOT /bin/bash
 
@@ -66,14 +66,23 @@ umount $MY_CHROOT/proc
 umount $MY_CHROOT/sys
 }
 
-
+function build-all {
 start_init
 bootstrap
 config_chroot
 copy_cross_src
 run_chroot
 umount_chroot
+}
 
+
+err=0
+report() {
+        err=1
+        echo -n "error at line ${BASH_LINENO[0]}, in call to "
+        sed -n ${BASH_LINENO[0]}p $0
+} >&2
+trap report ERR
 
 
 if [ ! -z "$1" ]; then
@@ -88,7 +97,8 @@ if [ ! -z "$1" ]; then
 else
   # Show a helpful error
   echo "Try:" >&2
-  cat $0 | grep function | awk -F ' ' '{print $2}' | head -n -2
+#  cat $0 | grep function | awk -F ' ' '{print $2}' | head -n -2
   exit 1
 fi
 
+exit $err

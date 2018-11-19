@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 BDIR=/usr/src # build dir
 
 function install_dependencies {
@@ -206,23 +208,36 @@ cd $BDIR
 tput setaf 7
 }
 
-install_dependencies
-create_builddir
-download_src
-install_prerequisites
-create_gcc_binfolder
-copy_kernel_header
-build_binutils
-build_gcc_part1
-build_glibc_part1
-build_gcc_part2
-build_glibc
-build_gcc_part3
-backup_gcc
-#build_gcc8
-#build_gcc8_rpi
-add2path
-#backup_gcc8
+function build-all {
+
+    install_dependencies
+    create_builddir
+    download_src
+    install_prerequisites
+    create_gcc_binfolder
+    copy_kernel_header
+    build_binutils
+    build_gcc_part1
+    build_glibc_part1
+    build_gcc_part2
+    build_glibc
+    build_gcc_part3
+    backup_gcc
+    #build_gcc8
+    #build_gcc8_rpi
+    add2path
+    #backup_gcc8
+exit 0
+}
+
+err=0
+report() {
+        err=1
+        echo -n "error at line ${BASH_LINENO[0]}, in call to "
+        sed -n ${BASH_LINENO[0]}p $0
+} >&2
+trap report ERR
+
 
 
 if [ ! -z "$1" ]; 
@@ -239,6 +254,8 @@ fi
 else
   # Show a helpful error
   echo "Try:" >&2
-  cat $0 | grep function | awk -F ' ' '{print $2}' | head -n -2
+#  cat $0 | grep function | awk -F ' ' '{print $2}' | head -n -2
   exit 1
 fi
+
+exit $err

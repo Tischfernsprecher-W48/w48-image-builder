@@ -1,5 +1,9 @@
 #!/bin/bash
+
+set -x
+
 set -e
+
 
 SOURCEDIR=$(dirname $0)/src
 ROOTDIR="$1"
@@ -73,34 +77,28 @@ chroot $ROOTDIR apt-get install -y mc make gcc sudo locales
 chroot $ROOTDIR apt-get install -fy
 
 
-# Konfiguration kopieren
-cp -vr $SOURCEDIR/etc/* $ROOTDIR/etc/
-cp -vr $SOURCEDIR/lib/* $ROOTDIR/lib/
-cp -vr $SOURCEDIR/usr/* $ROOTDIR/usr/
-cp -vr $SOURCEDIR/var/* $ROOTDIR/var/
+
+echo "Europe/Oslo" > $ROOTDIR/etc/timezone 
+chroot $ROOTDIR dpkg-reconfigure -f noninteractive tzdata
+
+sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' $ROOTDIR/etc/locale.gen 
+sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' $ROOTDIR/etc/locale.gen
+echo 'LANG="de_DE.UTF-8"'>$ROOTDIR/etc/default/locale
+chroot $ROOTDIR dpkg-reconfigure --frontend=noninteractive locales
+chroot $ROOTDIR update-locale LANG=de_DE.UTF-8
 
 
 # ToDo
 
 # Make chroot for croos build
 
-scripts/./build-chroot.sh
+/bin/bash scripts/./build-chroot.sh build-all
 
 # Libs kopieren ToDo
 #cp -r /opt/cross-pi-libs/* $ROOTDIR/
 
-
-# Pakete installieren ToDo
-#cp -rvf  $SOURCEDIR/../../w48-WebGUI/*.deb     $ROOTDIR/usr/src/
-#cp -rvf $SOURCEDIR/../../w48conf/*.deb         $ROOTDIR/usr/src/
-#cp -rvf $SOURCEDIR/../../w48d/*.deb            $ROOTDIR/usr/src/
-#cp -rvf $SOURCEDIR/../../w48play/*.deb         $ROOTDIR/usr/src/
-#cp -rvf $SOURCEDIR/../../w48upnpd/*.deb        $ROOTDIR/usr/src/
-#cp -rvf $SOURCEDIR/../../w48phpcmd/*.deb       $ROOTDIR/usr/src/
-#cp -rvf $SOURCEDIR/../../w48rebootd/*.deb      $ROOTDIR/usr/src/
-
-#cp -vf  $SOURCEDIR/../../changemac/changemac   $ROOTDIR/usr/sbin/
-#cp -vf  $SOURCEDIR/../../w48phpcmd/w48phpcmd   $ROOTDIR/usr/sbin/
+# Pakete suchen und kopioeren ToDo
+find $(dirname $0)/chroot/usr/src -name '*.deb' -exec cp -vft $ROOTDIR/usr/src/ {} +
 
 
 
@@ -109,8 +107,14 @@ chroot $ROOTDIR  find /usr/src -type f -name "*.deb" -exec dpkg -i "{}" \;
 
 
 # reinigen
-chroot $ROOTDIR rm /usr/src/*.deb
+chroot $ROOTDIR rm -rf /usr/src/*.deb
 
+
+# Konfiguration kopieren
+cp -vr $SOURCEDIR/etc/* $ROOTDIR/etc/
+cp -vr $SOURCEDIR/lib/* $ROOTDIR/lib/
+cp -vr $SOURCEDIR/usr/* $ROOTDIR/usr/
+cp -vr $SOURCEDIR/var/* $ROOTDIR/var/
 
 
 
@@ -122,3 +126,14 @@ chroot $ROOTDIR rm /usr/src/*.deb
 # Done.
 rm $ROOTDIR/usr/sbin/policy-rc.d
 rm $ROOTDIR/etc/apt/apt.conf.d/50apt-cacher-ng
+
+# errorhandling
+err=0
+report() {
+        err=1
+        echo -n "error at line ${BASH_LINENO[0]}, in call to "
+        sed -n ${BASH_LINENO[0]}p $0
+} >&2
+trap report ERR
+
+exit $err
